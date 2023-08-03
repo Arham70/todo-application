@@ -4,7 +4,7 @@ from .models import ToDo
 from .serializer import ToDoSerializer
 from rest_framework import status, generics
 from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import ListModelMixin, CreateModelMixin,RetrieveModelMixin,UpdateModelMixin
+from rest_framework.mixins import DestroyModelMixin,ListModelMixin, CreateModelMixin,RetrieveModelMixin,UpdateModelMixin
 
 
 
@@ -36,3 +36,10 @@ class ToDoUpdate(GenericAPIView,UpdateModelMixin):
 
     def put(self, request, *args, **kwargs):
         return self.update(request,*args,**kwargs)
+
+class ToDoDelete(GenericAPIView, DestroyModelMixin):
+    queryset = ToDo.objects.all()
+    serializer_class = ToDoSerializer
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request,*args,**kwargs)
