@@ -8,38 +8,61 @@ from rest_framework.mixins import DestroyModelMixin,ListModelMixin, CreateModelM
 
 
 
+#
+# # Create your views here.
+# class ToDoList(GenericAPIView,ListModelMixin):
+#     queryset = ToDo.objects.all()
+#     serializer_class = ToDoSerializer
+#
+#     def get(self, request, *args, **kwargs):
+#         return self.list(request,*args,**kwargs)
+#
+# class ToDoCreate(GenericAPIView,CreateModelMixin):
+#     queryset = ToDo.objects.all()
+#     serializer_class = ToDoSerializer
+#
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request,*args,**kwargs)
+#
+# class ToDoSpecific(GenericAPIView,RetrieveModelMixin):
+#     queryset = ToDo.objects.all()
+#     serializer_class = ToDoSerializer
+#
+#     def get(self, request, *args, **kwargs):
+#         return self.retrieve(request,*args,**kwargs)
+#
+# class ToDoUpdate(GenericAPIView,UpdateModelMixin):
+#     queryset = ToDo.objects.all()
+#     serializer_class = ToDoSerializer
+#
+#     def put(self, request, *args, **kwargs):
+#         return self.update(request,*args,**kwargs)
+#
+# class ToDoDelete(GenericAPIView, DestroyModelMixin):
+#     queryset = ToDo.objects.all()
+#     serializer_class = ToDoSerializer
+#
+#     def delete(self, request, *args, **kwargs):
+#         return self.destroy(request,*args,**kwargs)
 
-# Create your views here.
-class ToDoList(GenericAPIView,ListModelMixin):
+class ToDoListCreate(GenericAPIView, ListModelMixin,CreateModelMixin):
     queryset = ToDo.objects.all()
     serializer_class = ToDoSerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(request,*args,**kwargs)
-class ToDoCreate(GenericAPIView,CreateModelMixin):
-    queryset = ToDo.objects.all()
-    serializer_class = ToDoSerializer
-
     def post(self, request, *args, **kwargs):
         return self.create(request,*args,**kwargs)
 
-class ToDoSpecific(GenericAPIView,RetrieveModelMixin):
+class ToDoSpecificUpdateDelete(GenericAPIView,RetrieveModelMixin,UpdateModelMixin, DestroyModelMixin):
     queryset = ToDo.objects.all()
     serializer_class = ToDoSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request,*args,**kwargs)
 
-class ToDoUpdate(GenericAPIView,UpdateModelMixin):
-    queryset = ToDo.objects.all()
-    serializer_class = ToDoSerializer
-
     def put(self, request, *args, **kwargs):
         return self.update(request,*args,**kwargs)
-
-class ToDoDelete(GenericAPIView, DestroyModelMixin):
-    queryset = ToDo.objects.all()
-    serializer_class = ToDoSerializer
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request,*args,**kwargs)

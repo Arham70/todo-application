@@ -20,11 +20,13 @@ from todo_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('apitodo/', views.ToDoList.as_view()),
+    # path('apitodo/', views.ToDoList.as_view()),
     #path('apitodo/', views.ToDoCreate.as_view()),
     # path('apitodo/<int:pk>/', views.ToDoSpecific.as_view()),
     # path('apitodo/<int:pk>/', views.ToDoUpdate.as_view()),
-    path('apitodo/<int:pk>/', views.ToDoDelete.as_view()),
+    # path('apitodo/<int:pk>/', views.ToDoDelete.as_view()),
+    path('apitodo/<int:pk>/', views.ToDoSpecificUpdateDelete.as_view()),
+    path('apitodo/', views.ToDoListCreate.as_view()),
 
 
 
