@@ -4,7 +4,8 @@ from .models import ToDo
 from .serializer import ToDoSerializer
 from rest_framework import status, generics
 from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import ListModelMixin, CreateModelMixin
+from rest_framework.mixins import ListModelMixin, CreateModelMixin,RetrieveModelMixin
+
 
 
 # Create your views here.
@@ -21,3 +22,9 @@ class ToDoCreate(GenericAPIView,CreateModelMixin):
     def post(self, request, *args, **kwargs):
         return self.create(request,*args,**kwargs)
 
+class ToDoSpecific(GenericAPIView,RetrieveModelMixin):
+    queryset = ToDo.objects.all()
+    serializer_class = ToDoSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request,*args,**kwargs)
