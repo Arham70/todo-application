@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from .models import ToDo
-from .serializer import ToDoSerializer
+from .serializer import ToDoSerializer,ToDoDocumentationSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
 from .Exception import NotFoundException
+from drf_yasg.utils import swagger_auto_schema
+# from .serializer import ExcludeFieldsInspector, CustomSerializerInspector
+
+
 
 
 @api_view(['GET'])
@@ -24,16 +28,32 @@ def GetApi(request, pk=None):
         return Response(serializer.data)
 
 
+@swagger_auto_schema(
+    methods=['post'],
+    request_body=ToDoDocumentationSerializer
+)
 @api_view(['POST'])
 def CreateApi(request):
     if request.method == 'POST':
+        request_data = request.data.copy()
+        request_data.pop('created_at', None)
+        request_data.pop('completed', None)
+
         serializer = ToDoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({'msg': 'Data uploaded'}, status=status.HTTP_201_CREATED)
-        return Response({'msg': 'Data not uploaded'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    methods=['put'],
+    request_body=ToDoSerializer,
+    responses={
+        status.HTTP_201_CREATED: 'Data uploaded',
+        status.HTTP_400_BAD_REQUEST: 'Data not uploaded',
+    },
+)
 @api_view(['PUT'])
 def UpdateApi(request, pk=None):
     if request.method == 'PUT':
@@ -51,6 +71,14 @@ def UpdateApi(request, pk=None):
         return Response({'msg': 'U cannot update data because u do not put id'}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    methods=['patch'],
+    request_body=ToDoSerializer,
+    responses={
+        status.HTTP_201_CREATED: 'Data uploaded',
+        status.HTTP_400_BAD_REQUEST: 'Data not uploaded',
+    },
+)
 @api_view(['PATCH'])
 def PartialUpdateApi(request, pk=None):
     if request.method == 'PATCH':
